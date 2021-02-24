@@ -1,14 +1,14 @@
 <template>
   <v-app color="dark">
-    <v-card flat height="200px" tile>
-      <v-toolbar dense color="blue">
+    <v-card flat height="200px" tile >
+      <v-toolbar dense color="blue" >
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
         <v-toolbar-title>Title</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
-        <v-btn icon>
+        <v-btn icon >
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
@@ -17,7 +17,7 @@
         </v-btn>
 
         <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
+          <v-icon >mdi-dots-vertical</v-icon>
         </v-btn>
       </v-toolbar>
     </v-card>
@@ -28,15 +28,16 @@
 
     <v-flex class=" justify-center pa-12 ">
       <v-data-table
+        :elevation="12"
         :headers="headers"
         :items="desserts"
         sort-by="calories"
-        class="elevation-1"
+        class="elevation-1 grey"
+        
       >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-toolbar-title>My CRUD</v-toolbar-title>
-            <v-divider class="mx-4" inset vertical></v-divider>
+        <template v-slot:top color="blue">
+          <v-toolbar flat color="grey">
+            <v-toolbar-title>Estabelecimento Comercial  </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
               <template v-slot:activator="{ on, attrs }">
@@ -55,10 +56,10 @@
                   <span class="headline">{{ formTitle }}</span>
                 </v-card-title>
 
-                <v-card-text>
-                  <v-container>
+                <v-card-text class="white--text"> >
+                  <v-container > >
                     <v-row>
-                      <v-col cols="12" sm="6" md="4">
+                      <v-col cols="12" sm="6" md="4" > >
                         <v-text-field
                           v-model="editedItem.name"
                           label="Dessert name"
@@ -68,6 +69,7 @@
                         <v-text-field
                           v-model="editedItem.calories"
                           label="Calories"
+                          >
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4">
@@ -149,7 +151,7 @@ export default {
     dialogDelete: false,
     headers: [
       {
-        text: "Dessert (100g serving)",
+        text: "Nome / EC",
         align: "start",
         sortable: false,
         value: "name",
