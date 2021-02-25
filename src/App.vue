@@ -22,16 +22,13 @@
       </v-toolbar>
     </v-card>
 
-    <v-card>
-      
-    </v-card>
-
-    <v-flex class=" justify-center pa-12 ">
+    <template>
       <v-data-table
         :headers="headers"
-        :items="desserts"
-        sort-by="calories"
+        :items="customers"
+        :items-per-page="5"
         class="elevation-1"
+<<<<<<< HEAD
       >
         <template v-slot:top>
           <v-toolbar flat>
@@ -134,13 +131,15 @@
       </v-data-table>
     </v-flex>
   </v-app>
+=======
+      ></v-data-table> </template
+  ></v-app>
+>>>>>>> 12f67a220261d201a427f4d1d96e1c9c5909c308
 </template>
 
 <script>
 import HelloWorld from "./components/HelloWorld";
-import clientes from './services/clientes';
-
-
+import clientes from "./services/clientes";
 
 export default {
   name: "App",
@@ -149,48 +148,76 @@ export default {
     HelloWorld,
   },
 
-  
-
   data: () => ({
-    clientes: [],
+    customers: [
+      {
+        name: "",
+      },
+    ],
     dialog: false,
     dialogDelete: false,
     headers: [
       {
-        text: "Dessert (100g serving)",
+        text: "Nome / EC",
         align: "start",
         sortable: false,
         value: "name",
       },
-      { text: "Calories", value: "calories" },
-      { text: "Fat (g)", value: "fat" },
-      { text: "Carbs (g)", value: "carbs" },
-      { text: "Protein (g)", value: "protein" },
-      { text: "Actions", value: "actions", sortable: false },
+      // { text: "Calories", value: "calories" },
+      // { text: "Fat (g)", value: "fat" },
+      // { text: "Carbs (g)", value: "carbs" },
+      // { text: "Protein (g)", value: "protein" },
+      // { text: "Actions", value: "actions", sortable: false },
     ],
     desserts: [],
     editedIndex: -1,
-    editedItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
-    defaultItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
-    },
+    // editedItem: {
+    //   name: "",
+    //   calories: 0,
+    //   fat: 0,
+    //   carbs: 0,
+    //   protein: 0,
+    // },
+    // defaultItem: {
+    //   name: "",
+    //   calories: 0,
+    //   fat: 0,
+    //   carbs: 0,
+    //   protein: 0,
+    // },
   }),
 
-  mounted(){
-    clientes.listar().then(resposta => {
-      console.log(resposta.data.items)
-      this.clientes = resposta.data;
-    })
+  mounted() {
+    clientes.listar().then((resposta) => {
+      // console.log(resposta.data.items);
+      var array = resposta.data.items;
+
+      // console.log(array.length);
+
+      // this.customers = this.customers[array.length];
+
+      // console.log(this.customers)
+      
+      for (let index = 0; index < array.length; index++) {
+        
+        if (array[index].type == "business") {
+        
+          this.customers[index].name = array[index].business_name;
+         
+        } else if  (array[index].type == "individual"){ 
+          
+          this.customers[index].name = array[index].first_name;
+          
+        }
+        console.log(this.customers);
+        
+      }
+      console.log(this.desserts)
+      // this.desserts = this.customers;
+      // console.log(this.customers);
+      // console.log("Aqui troca");
+      // console.log(this.desserts);
+    });
   },
 
   computed: {
@@ -214,121 +241,73 @@ export default {
 
   methods: {
     initialize() {
-      this.desserts = [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-        },
-      ];
+      
+      // this.desserts = [
+      //   {
+      //     name: "Frozen Yogurt",
+      //     // calories: 159,
+      //     // fat: 6.0,
+      //     // carbs: 24,
+      //     // protein: 4.0,
+      //   },
+      //   {
+      //     name: "Ice cream sandwich",
+      //     // calories: 237,
+      //     // fat: 9.0,
+      //     // carbs: 37,
+      //     // protein: 4.3,
+      //   },
+      //   {
+      //     name: "Eclair",
+      //     // calories: 262,
+      //     // fat: 16.0,
+      //     // carbs: 23,
+      //     // protein: 6.0,
+      //   }
+      // ];
     },
 
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
+    // editItem(item) {
+    //   this.editedIndex = this.desserts.indexOf(item);
+    //   this.editedItem = Object.assign({}, item);
+    //   this.dialog = true;
+    // },
 
-    deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
+    // deleteItem(item) {
+    //   this.editedIndex = this.desserts.indexOf(item);
+    //   this.editedItem = Object.assign({}, item);
+    //   this.dialogDelete = true;
+    // },
 
-    deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
-      this.closeDelete();
-    },
+    // deleteItemConfirm() {
+    //   this.desserts.splice(this.editedIndex, 1);
+    //   this.closeDelete();
+    // },
 
-    close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
+    // close() {
+    //   this.dialog = false;
+    //   this.$nextTick(() => {
+    //     this.editedItem = Object.assign({}, this.defaultItem);
+    //     this.editedIndex = -1;
+    //   });
+    // },
 
-    closeDelete() {
-      this.dialogDelete = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
+    // closeDelete() {
+    //   this.dialogDelete = false;
+    //   this.$nextTick(() => {
+    //     this.editedItem = Object.assign({}, this.defaultItem);
+    //     this.editedIndex = -1;
+    //   });
+    // },
 
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
-      } else {
-        this.desserts.push(this.editedItem);
-      }
-      this.close();
-    },
+    // save() {
+    //   if (this.editedIndex > -1) {
+    //     Object.assign(this.desserts[this.editedIndex], this.editedItem);
+    //   } else {
+    //     this.desserts.push(this.editedItem);
+    //   }
+    //   this.close();
+    // },
   },
 };
 </script>
