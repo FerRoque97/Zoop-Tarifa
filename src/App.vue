@@ -139,6 +139,9 @@
 
 <script>
 import HelloWorld from "./components/HelloWorld";
+import clientes from './services/clientes';
+
+
 
 export default {
   name: "App",
@@ -147,7 +150,10 @@ export default {
     HelloWorld,
   },
 
+  
+
   data: () => ({
+    clientes: [],
     dialog: false,
     dialogDelete: false,
     headers: [
@@ -180,6 +186,13 @@ export default {
       protein: 0,
     },
   }),
+
+  mounted(){
+    clientes.listar().then(resposta => {
+      console.log(resposta.data.items)
+      this.clientes = resposta.data;
+    })
+  },
 
   computed: {
     formTitle() {
