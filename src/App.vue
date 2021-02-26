@@ -127,23 +127,37 @@ export default {
         console.log(customer);
         if (customer.type == "business") {
           customerName = customer.business_name;
-          customerDoc = customer.ein;
+          customerDoc =  this.maskCnpj(customer.ein);
           currentBalance = customer.current_balance;
           accountBalance = customer.account_balance;
         }
 
         if (customer.type == "individual") {
           customerName = `${customer.first_name} ${customer.last_name}`;
-          customerDoc = customer.taxpayer_id;
+          customerDoc = this.maskCpf(customer.taxpayer_id);
           currentBalance = customer.current_balance;
           accountBalance = customer.account_balance;
         }
+
+        currentBalance = parseFloat(currentBalance);
+        currentBalance = currentBalance.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        });
+
+        accountBalance = parseFloat(accountBalance);
+        accountBalance = accountBalance.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        });
+
+        // console.log(currentBalance);
 
         const novoCustomer = {
           name: customerName,
           doc: customerDoc,
           current: currentBalance,
-          account: accountBalance
+          account: accountBalance,
         };
 
         this.customers.push(novoCustomer);
@@ -191,30 +205,22 @@ export default {
   },
 
   methods: {
-    initialize() {
-      // this.desserts = [
-      //   {
-      //     name: "Frozen Yogurt",
-      //     // calories: 159,
-      //     // fat: 6.0,
-      //     // carbs: 24,
-      //     // protein: 4.0,
-      //   },
-      //   {
-      //     name: "Ice cream sandwich",
-      //     // calories: 237,
-      //     // fat: 9.0,
-      //     // carbs: 37,
-      //     // protein: 4.3,
-      //   },
-      //   {
-      //     name: "Eclair",
-      //     // calories: 262,
-      //     // fat: 16.0,
-      //     // carbs: 23,
-      //     // protein: 6.0,
-      //   }
-      // ];
+    maskCpf(v) {
+      v = v.replace(/\D/g, ""); //Remove tudo o que não é dígito
+      v = v.replace(/(\d{3})(\d)/, "$1.$2"); //Coloca um ponto entre o terceiro e o quarto dígitos
+      v = v.replace(/(\d{3})(\d)/, "$1.$2"); //Coloca um ponto entre o terceiro e o quarto dígitos
+      //de novo (para o segundo bloco de números)
+      v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2"); //Coloca um hífen entre o terceiro e o quarto dígitos
+      return v;
+    },
+
+    maskCnpj(v) {
+      v = v.replace(/\D/g, ""); //Remove tudo o que não é dígito
+      v = v.replace(/^(\d{2})(\d)/, "$1.$2"); //Coloca ponto entre o segundo e o terceiro dígitos
+      v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3"); //Coloca ponto entre o quinto e o sexto dígitos
+      v = v.replace(/\.(\d{3})(\d)/, ".$1/$2"); //Coloca uma barra entre o oitavo e o nono dígitos
+      v = v.replace(/(\d{4})(\d)/, "$1-$2"); //Coloca um hífen depois do bloco de quatro dígitos
+      return v;
     },
 
     // editItem(item) {
