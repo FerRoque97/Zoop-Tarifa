@@ -23,13 +23,41 @@
     </v-card>
 
     <template>
+      <v-card>
+        <v-card-title>
+          Clientes YC
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Pesquisa"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-card-title>
+        <v-data-table
+          :headers="headers"
+          :items="customers"
+          :search="search"
+        ></v-data-table>
+      </v-card> </template
+  ></v-app>
+</template>
+
+
+
+
+
+    <!-- <template>
       <v-data-table
         :headers="headers"
         :items="customers"
-        :items-per-page="5"
+        :items-per-page="15"
         class="elevation-1"
-      ></v-data-table> </template
-  ></v-app>
+        :mask="['###.###.###-##', '##.###.###/####-##']"
+      ></v-data-table> 
+    </template> -->
+  </v-app>
 </template>
 
 <script>
@@ -44,9 +72,8 @@ export default {
   },
 
   data: () => ({
-    customers: [
-      
-    ],
+    customers: [],
+    search: "",
     dialog: false,
     dialogDelete: false,
     headers: [
@@ -56,9 +83,9 @@ export default {
         sortable: false,
         value: "name",
       },
-      // { text: "Calories", value: "calories" },
-      // { text: "Fat (g)", value: "fat" },
-      // { text: "Carbs (g)", value: "carbs" },
+      { text: "CPF/CNPJ", value: "doc" },
+      { text: "Valor em Conta", value: "current" },
+      { text: "Valor a Receber", value: "account" },
       // { text: "Protein (g)", value: "protein" },
       // { text: "Actions", value: "actions", sortable: false },
     ],
@@ -92,40 +119,49 @@ export default {
 
       // console.log(this.customers)
 
-      array.forEach(customer => {
+      array.forEach((customer) => {
         let customerName;
+        let customerDoc;
+        let currentBalance;
+        let accountBalance;
         console.log(customer);
-          if(customer.type == 'business'){
-           customerName = customer.business_name;
+        if (customer.type == "business") {
+          customerName = customer.business_name;
+          customerDoc = customer.ein;
+          currentBalance = customer.current_balance;
+          accountBalance = customer.account_balance;
         }
 
-          if(customer.type == 'individual'){
-           customerName = `${customer.first_name} ${customer.last_name}`
+        if (customer.type == "individual") {
+          customerName = `${customer.first_name} ${customer.last_name}`;
+          customerDoc = customer.taxpayer_id;
+          currentBalance = customer.current_balance;
+          accountBalance = customer.account_balance;
         }
 
         const novoCustomer = {
           name: customerName,
-        }
+          doc: customerDoc,
+          current: currentBalance,
+          account: accountBalance
+        };
 
-        this.customers.push(novoCustomer)
-
+        this.customers.push(novoCustomer);
       });
-      
-      
 
       // for (let index = 0; index < array.length; index++) {
-        
+
       //   if (array[index].type == "business") {
-        
+
       //     this.customers[index].name = array[index].business_name;
-         
-      //   } else if  (array[index].type == "individual"){ 
-          
+
+      //   } else if  (array[index].type == "individual"){
+
       //     this.customers[index].name = array[index].first_name;
-          
+
       //   }
       //   console.log(this.customers);
-        
+
       // }
       // console.log(this.desserts)
       // this.desserts = this.customers;
@@ -156,7 +192,6 @@ export default {
 
   methods: {
     initialize() {
-      
       // this.desserts = [
       //   {
       //     name: "Frozen Yogurt",
