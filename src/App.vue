@@ -1,65 +1,46 @@
 <template>
-  <v-app color="dark">
-    <v-card flat height="200px" tile>
-      <v-toolbar dense color="blue">
+  <v-app>
+    <v-card flat height="100px" tile>
+      <v-toolbar dense color="grey darken-2">
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-        <v-toolbar-title>Title</v-toolbar-title>
-
-        <v-spacer></v-spacer>
-
-        <v-btn icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-
-        <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
-        </v-btn>
-
-        <v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
+        <v-toolbar-title class="">YC Pay</v-toolbar-title>
       </v-toolbar>
     </v-card>
+    <v-flex class="pa-4">
+      <template class="pl-12">
+        <v-card class="grey darken-2">
+          <v-card-title>
+            Clientes YC
+            <v-spacer></v-spacer>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Pesquisa"
+              single-line
+              hide-details
+            ></v-text-field>
+          </v-card-title>
+          <v-data-table
+            class="grey lighten-2"
+            :headers="headers"
+            :items="customers"
+            :search="search"
+          ></v-data-table>
+        </v-card>
+      </template>
+    </v-flex>
 
     <template>
-      <v-card>
-        <v-card-title>
-          Clientes YC
-          <v-spacer></v-spacer>
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Pesquisa"
-            single-line
-            hide-details
-          ></v-text-field>
-        </v-card-title>
-        <v-data-table
-          :headers="headers"
-          :items="customers"
-          :search="search"
-        ></v-data-table>
-      </v-card> </template
-  ></v-app>
-</template>
-
-
-
-
-
-    <!-- <template>
-      <v-data-table
-        :headers="headers"
-        :items="customers"
-        :items-per-page="15"
-        class="elevation-1"
-        :mask="['###.###.###-##', '##.###.###/####-##']"
-      ></v-data-table> 
-    </template> -->
+      <v-footer padless class="grey darken-2">
+        <v-col class="text-center" cols="12" color="Black">
+          {{ new Date().getFullYear() }} — <strong>Tarifas ZooP</strong>
+        </v-col>
+      </v-footer>
+    </template>
   </v-app>
 </template>
-
+ 
 <script>
 import HelloWorld from "./components/HelloWorld";
 import clientes from "./services/clientes";
@@ -127,7 +108,7 @@ export default {
         console.log(customer);
         if (customer.type == "business") {
           customerName = customer.business_name;
-          customerDoc =  this.maskCnpj(customer.ein);
+          customerDoc = this.maskCnpj(customer.ein);
           currentBalance = customer.current_balance;
           accountBalance = customer.account_balance;
         }
